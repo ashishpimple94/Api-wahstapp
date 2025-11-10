@@ -1,28 +1,39 @@
 # WhatsApp API Proxy - Backend
 
-WhatsApp API Proxy server for GoDaddy deployment.
-
-## 📁 Files
-
-### Required Files:
-- `.htaccess` - PHP handler and CORS headers
-- `whatsapp-proxy.php` - Main WhatsApp API proxy
-
-### Test Files:
-- `test-cors.php` - CORS test
-- `test-error.php` - PHP environment test
-- `test-proxy.php` - Proxy test
-- `test-api.php` - API test
-- `test-whatsapp-simple.php` - Simple WhatsApp test
-- `test-whatsapp.php` - WhatsApp test
+WhatsApp API Proxy server for Render.com deployment.
 
 ## 🚀 Deployment
 
-### GoDaddy Deployment:
+### Render.com Deployment:
 
-1. Upload all files to `public_html/api/` folder
-2. Set file permissions: `644`
-3. Test: `https://yourdomain.com/api/test-error.php`
+1. **Connect Repository**:
+   - Go to [Render.com](https://render.com)
+   - Connect your GitHub repository
+   - Select this repository: `Api-wahstapp`
+
+2. **Create Web Service**:
+   - Service Type: `Web Service`
+   - Environment: `Node`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+   - Port: `10000` (or use `$PORT` environment variable)
+
+3. **Deploy**:
+   - Click "Create Web Service"
+   - Wait for deployment to complete
+   - Get your service URL: `https://your-service.onrender.com`
+
+## 📁 Files
+
+### Node.js Files:
+- `server.js` - Express server (main file)
+- `package.json` - Dependencies and scripts
+- `render.yaml` - Render deployment configuration
+
+### PHP Files (for GoDaddy):
+- `.htaccess` - PHP handler and CORS headers
+- `whatsapp-proxy.php` - PHP WhatsApp API proxy
+- `test-*.php` - Test files
 
 ## 🔧 Configuration
 
@@ -39,11 +50,16 @@ WhatsApp API Proxy server for GoDaddy deployment.
 - ✅ Location messages support
 - ✅ Text messages support
 - ✅ Clean JSON output
+- ✅ Health check endpoint
+- ✅ Render.com deployment ready
 
 ## 📝 Usage
 
 ### Text Message:
-```json
+```bash
+POST https://your-service.onrender.com/api/whatsapp-proxy
+Content-Type: application/json
+
 {
   "phone_number": "919090385555",
   "phone_number_id": "741032182432100",
@@ -53,7 +69,10 @@ WhatsApp API Proxy server for GoDaddy deployment.
 ```
 
 ### Location Message:
-```json
+```bash
+POST https://your-service.onrender.com/api/whatsapp-proxy
+Content-Type: application/json
+
 {
   "phone_number": "919090385555",
   "phone_number_id": "741032182432100",
@@ -68,23 +87,75 @@ WhatsApp API Proxy server for GoDaddy deployment.
 }
 ```
 
+## 🔍 Endpoints
+
+### Health Check:
+```
+GET https://your-service.onrender.com/health
+```
+
+### Test CORS:
+```
+GET https://your-service.onrender.com/test-cors
+```
+
+### WhatsApp API Proxy:
+```
+POST https://your-service.onrender.com/api/whatsapp-proxy
+```
+
 ## 🐛 Troubleshooting
 
+### Render Deployment Issues:
+
+1. **Package.json Missing**:
+   - ✅ Fixed: `package.json` file included
+   - Build command: `npm install`
+   - Start command: `npm start`
+
+2. **Port Configuration**:
+   - ✅ Fixed: Uses `process.env.PORT` or default `3000`
+   - Render automatically sets `PORT` environment variable
+
+3. **Build Errors**:
+   - Check Node.js version (18.0.0+)
+   - Check npm version (9.0.0+)
+   - Verify `package.json` is correct
+
 ### CORS Error:
-- Check `.htaccess` file is uploaded
-- Verify CORS headers in PHP file
-- Test: `https://yourdomain.com/api/test-cors.php`
+- ✅ CORS middleware configured
+- Test: `https://your-service.onrender.com/test-cors`
 
-### PHP Not Working:
-- Check PHP version (7.4+)
-- Enable cURL extension
-- Test: `https://yourdomain.com/api/test-error.php`
-
-### File Permissions:
-- Files: `644`
-- Folders: `755`
+### API Errors:
+- Check error logs in Render dashboard
+- Verify WhatsApp API credentials
+- Check network connectivity
 
 ## 📞 Support
 
-For issues, check the error logs in GoDaddy cPanel.
+For issues, check the logs in Render dashboard.
 
+## 🔄 Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start server
+npm start
+
+# Server will run on http://localhost:3000
+```
+
+## 🌐 Deployment Options
+
+### Render.com (Recommended):
+- ✅ Node.js support
+- ✅ Free tier available
+- ✅ Automatic deployments
+- ✅ HTTPS enabled
+
+### GoDaddy (PHP):
+- Use PHP files (`.htaccess`, `whatsapp-proxy.php`)
+- Upload to `public_html/api/` folder
+- Set permissions: `644`
